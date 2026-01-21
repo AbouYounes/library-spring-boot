@@ -3,6 +3,7 @@ package com.example.library.controller;
 import com.example.library.domain.Book;
 import com.example.library.dto.BookRequest;
 import com.example.library.dto.HealthResponse;
+import com.example.library.exception.MissingIsbnException;
 import com.example.library.service.LibraryService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class LibraryController {
     @PostMapping("/books")
     public void addBook(@RequestBody BookRequest request){
         if (request.getIsbn() == null || request.getIsbn().isBlank()) {
-            throw new IllegalArgumentException("ISBN is required");
+            throw new MissingIsbnException();
         }
             Book book = new Book(
                 request.getIsbn(),

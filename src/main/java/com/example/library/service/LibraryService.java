@@ -1,6 +1,7 @@
 package com.example.library.service;
 
 import com.example.library.domain.Book;
+import com.example.library.exception.DuplicateIsbnException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class LibraryService {
 
     public void addBook(Book book){
         if (books.containsKey(book.getIsbn())){
-            throw new IllegalArgumentException("Duplicate ISBN");
+            throw new DuplicateIsbnException(book.getIsbn());
         }
         books.put(book.getIsbn(), book);
     }
