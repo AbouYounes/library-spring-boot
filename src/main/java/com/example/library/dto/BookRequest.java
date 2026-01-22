@@ -1,13 +1,21 @@
 package com.example.library.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class BookRequest {
 
-     private String isbn;
-     private String title;
-     private String author;
+    @NotBlank(message = "ISBN is required")
+    private String isbn;
 
-     public BookRequest(){
-     }
+    @NotBlank(message = "Title is required")
+    private String title;
+
+    @NotBlank(message = "Author is required")
+    private String author;
+
+
+    public BookRequest(){
+    }
 
     public String getIsbn() {
         return isbn;

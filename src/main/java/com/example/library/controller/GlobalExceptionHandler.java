@@ -4,6 +4,7 @@ import com.example.library.dto.ErrorResponse;
 import com.example.library.exception.DuplicateIsbnException;
 import com.example.library.exception.MissingIsbnException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,6 +27,21 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(
                 "MISSING ISBN",
                 ex.getMessage()
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidation(MethodArgumentNotValidException ex) {
+
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .get(0)
+                .getDefaultMessage();
+
+        return new ErrorResponse(
+                "VALIDATION_ERROR",
+                message
         );
     }
 }

@@ -6,6 +6,7 @@ import com.example.library.dto.HealthResponse;
 import com.example.library.exception.MissingIsbnException;
 import com.example.library.service.LibraryService;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -24,10 +25,7 @@ public class LibraryController {
     }
 
     @PostMapping("/books")
-    public void addBook(@RequestBody BookRequest request){
-        if (request.getIsbn() == null || request.getIsbn().isBlank()) {
-            throw new MissingIsbnException();
-        }
+    public void addBook(@Valid @RequestBody BookRequest request){
             Book book = new Book(
                 request.getIsbn(),
                 request.getTitle(),
