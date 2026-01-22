@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MissingIsbnException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse HandleMissingIsbn(MissingIsbnException ex){
         return new ErrorResponse(
                 "MISSING ISBN",
