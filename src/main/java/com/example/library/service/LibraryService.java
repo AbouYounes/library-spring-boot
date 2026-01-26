@@ -54,4 +54,14 @@ public class LibraryService {
     public String healthCheck(){
         return "Library service is running";
     }
+
+    public void borrowBook(String isbn){
+        Book book = findBookByIsbn(isbn);
+        book.borrow();
+    }
+
+    public void returnBook(String isbn){
+        Book book = findBookByIsbn(isbn);
+        book.returnBook();
+    }
 }

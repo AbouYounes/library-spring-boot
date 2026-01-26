@@ -1,5 +1,8 @@
 package com.example.library.domain;
 
+import com.example.library.exception.BookAlreadyBorrowedException;
+import com.example.library.exception.BookNotBorrowedException;
+
 /**
  * Domain model representing a Book inside the library.
  *
@@ -15,7 +18,7 @@ public class Book {
     private final String title;
     private final String author;
 
-    private boolean available;
+    private boolean available = true;
 
 
 
@@ -23,6 +26,19 @@ public class Book {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
+    }
+
+    public void borrow(){
+        if (!available){
+            throw new BookAlreadyBorrowedException(isbn);
+        }
+        this.available = false;
+    }
+
+    public void returnBook(){
+        if (available){
+            throw new BookNotBorrowedException(isbn);
+        }
         this.available = true;
     }
 

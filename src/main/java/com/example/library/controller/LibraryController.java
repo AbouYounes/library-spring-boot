@@ -6,6 +6,7 @@ import com.example.library.dto.BookResponse;
 import com.example.library.dto.HealthResponse;
 import com.example.library.exception.MissingIsbnException;
 import com.example.library.service.LibraryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -50,5 +51,17 @@ public class LibraryController {
         return BookResponse.from(
                 libraryService.findBookByIsbn(isbn)
         );
+    }
+
+    @PatchMapping("/books/{isbn}/borrow")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void borrowBook(@PathVariable String isbn){
+        libraryService.borrowBook(isbn);
+    }
+
+    @PatchMapping("/books/{isbn}/return")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void returnBook(@PathVariable String isbn){
+        libraryService.returnBook(isbn);
     }
 }

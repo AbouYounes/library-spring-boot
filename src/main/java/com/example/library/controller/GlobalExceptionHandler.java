@@ -1,9 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.dto.ErrorResponse;
-import com.example.library.exception.BookNotFoundException;
-import com.example.library.exception.DuplicateIsbnException;
-import com.example.library.exception.MissingIsbnException;
+import com.example.library.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -53,5 +51,17 @@ public class GlobalExceptionHandler {
                 "VALIDATION_ERROR",
                 message
         );
+    }
+
+    @ExceptionHandler(BookAlreadyBorrowedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleBookAlreadyBorrowed(BookAlreadyBorrowedException ex){
+        return new ErrorResponse("Book_ALREADY_BORROWED", ex.getMessage());
+    }
+
+    @ExceptionHandler(BookNotBorrowedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleBookNotBorrowed(BookNotBorrowedException ex){
+        return new ErrorResponse("BOOK_NOT_BORROWED", ex.getMessage());
     }
 }
