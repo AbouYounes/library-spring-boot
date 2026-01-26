@@ -1,6 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.dto.ErrorResponse;
+import com.example.library.exception.BookNotFoundException;
 import com.example.library.exception.DuplicateIsbnException;
 import com.example.library.exception.MissingIsbnException;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BookNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleBookNotFound(BookNotFoundException ex){
+        return new ErrorResponse(
+                "BOOK_NOT_FOUND",
+                ex.getMessage()
+        );
+    }
 
     @ExceptionHandler(DuplicateIsbnException.class)
     @ResponseStatus(HttpStatus.CONFLICT)

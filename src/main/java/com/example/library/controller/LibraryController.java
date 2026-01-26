@@ -2,11 +2,14 @@ package com.example.library.controller;
 
 import com.example.library.domain.Book;
 import com.example.library.dto.BookRequest;
+import com.example.library.dto.BookResponse;
 import com.example.library.dto.HealthResponse;
 import com.example.library.exception.MissingIsbnException;
 import com.example.library.service.LibraryService;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 
 @RestController
@@ -32,5 +35,20 @@ public class LibraryController {
                 request.getAuthor()
         );
         libraryService.addBook(book);
+    }
+
+    @GetMapping("/books")
+    public List<BookResponse> getAllBooks(){
+        return libraryService.getAllBooks()
+                .stream()
+                .map(BookResponse::from)
+                .toList();
+    }
+
+    @GetMapping("/books/{isbn}")
+    public BookResponse getBookByIsbn(@PathVariable String isbn){
+        return BookResponse.from(
+                libraryService.findBookByIsbn(isbn)
+        );
     }
 }
